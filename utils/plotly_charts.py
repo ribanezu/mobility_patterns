@@ -223,7 +223,7 @@ def animated_mode_area(df_resampled):
                     showactive=False,
                     buttons=[
                         dict(
-                            label="   Show model share profile...   ",
+                            label="   Show modal share profile...   ",
                             method="animate",
                             args=[
                                 None,

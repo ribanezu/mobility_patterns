@@ -74,7 +74,7 @@ def load_html(filename):
             st.session_state.html_loaded = True
             return st.session_state.html_content
 
-html_content=load_html("data/activities.html")
+html_content=load_html("../data/activities.html")
 
 
 
