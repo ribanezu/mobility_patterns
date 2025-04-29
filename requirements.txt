@@ -3,3 +3,4 @@ folium
 streamlit-folium
 keplergl
 streamlit_keplergl
+plotly
