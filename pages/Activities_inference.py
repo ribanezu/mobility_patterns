@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 from utils.components import header
+from utils.plotly_charts import animated_activities_area
 
 
 
@@ -12,10 +13,23 @@ def cargar_datos():
     return pd.read_csv("data/wp_act.csv")
 
 df = cargar_datos()
-df["timestamp"] = pd.to_datetime(df["timestamp"])
-df = df.sort_values(by="timestamp")
+
+def map_actividad(act):
+    if act == "Casa":
+        return "Home"
+    elif act == "Trabajo":
+        return "Work"
+    else:
+        return "Secondary"
+
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+
 
 header()
+
+st.markdown("<h1 style='text-align: left;'>ACTIVITIES INFERENCE</h1>", unsafe_allow_html=True)
+
+st.markdown("<p style='text-align: left;font-size: 20px;'>This page shows the results of the activities inference model. Using raw GPS data, the model predicts the activity type. It could be used to understand mobility patterns in the city.</p>", unsafe_allow_html=True)
 
 
 with open("style.css") as f:
@@ -30,12 +44,25 @@ with col1:
 with col2:
     st.metric(label="Unique Devices", value=unique_devices)
 with col3:
-    st.metric(label="Activities detected", value="634")
+    st.metric(label="Average Home activities duration", value="7.42 h")
 with col4:
-    st.metric(label="Average time at work", value="9.32 h")
+    st.metric(label="Average Work activities duration", value="8.34 km")
 
+df['actividad_cat'] = df['actividad'].apply(map_actividad)
+df.set_index('timestamp', inplace=True)
 
+resampled = (
+    df.groupby('actividad_cat')
+      .resample('10T')
+      .agg({'ID': 'nunique'})
+      .rename(columns={'ID': 'count'})
+      .reset_index()
+)
 
+df_resampled = resampled.pivot(index='timestamp', columns='actividad_cat', values='count').fillna(0)
+
+fig = animated_activities_area(df_resampled)
+st.plotly_chart(fig, use_container_width=True)
 
 
 @st.cache_resource

@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 from utils.components import header
-from utils.plotly_charts import animated_unique_ids_area
+from utils.plotly_charts import animated_mode_area
 
 
 
@@ -18,9 +18,9 @@ df = df.sort_values(by="timestamp")
 
 header()
 
-st.markdown("<h1 style='text-align: left;'>DEMAND PROFILE</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: left;'>TRANSPORT MODE INFERENCE</h1>", unsafe_allow_html=True)
 
-st.markdown("<p style='text-align: left;font-size: 20px;'>This page shows data collected in the last day. The data collected with Indra's MaaS app over the last day is shown. The data has been properly anonymized</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: left;font-size: 20px;'>Using raw GPS data, public transport schedule and road network data, the model (based on clustering) provides a prediction for transport mode. It helps to evaluate transport modal share during the day.</p>", unsafe_allow_html=True)
 
 with open("style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -34,17 +34,42 @@ with col1:
 with col2:
     st.metric(label="Unique Devices", value=unique_devices)
 with col3:
-    st.metric(label="Number of Trips", value="432")
+    st.metric(label="Number of Car Trips", value="224")
 with col4:
-    st.metric(label="Average Trip Length", value="8.45 km")
+    st.metric(label="Number of Transit Trips", value="214")
 
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 df.set_index('timestamp', inplace=True)
-df_resampled = df.resample('10T').apply(lambda x: x['ID'].nunique())
 
+def map_mode(mode):
+    if mode == "CAR":
+        return "Car"
+    elif mode == "BUS":
+        return "Bus"
+    elif mode == "SUBWAY":
+        return "Subway"
+    elif mode == "TRAM":
+        return "Tram"
+    elif mode == "WALK":
+        return "Walk"
+    else:
+        return "Others"
+df['actividad_mode'] = df['actividad'].apply(map_mode)
 
-fig = animated_unique_ids_area(df_resampled)
+resampled = (
+    df.groupby('actividad_mode')
+      .resample('10T')
+      .agg({'ID': 'nunique'})
+      .rename(columns={'ID': 'count'})
+      .reset_index()
+)
+
+df_resampled = resampled.pivot(index='timestamp', columns='actividad_mode', values='count').fillna(0)
+
+fig = animated_mode_area(df_resampled)
 st.plotly_chart(fig, use_container_width=True)
+
+
 
 @st.cache_resource
 def load_html(filename):

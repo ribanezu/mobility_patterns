@@ -4,7 +4,7 @@ import base64
 
 def header():
     # Ruta del logo
-    logo_path = os.path.join(os.path.dirname(__file__), "logo.png")
+    logo_path = os.path.join(os.path.dirname(__file__), "logo5.png")
 
     # Inyectar CSS para estilo vertical centrado
     st.markdown("""
@@ -18,7 +18,7 @@ def header():
         }
 
         .header-logo {
-            height: 40px;
+            height: 200px;
             margin-bottom: 1rem;
         }
 
@@ -48,7 +48,6 @@ def header():
     st.markdown(f"""
         <div class="header-vertical">
             <img src="data:image/png;base64,{_image_to_base64(logo_path)}" class="header-logo"/>
-            <h1 class="header-title">Urban Mobility Patterns</h1>
         </div>
     """, unsafe_allow_html=True)
 
