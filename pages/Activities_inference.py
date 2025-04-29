@@ -44,9 +44,9 @@ with col1:
 with col2:
     st.metric(label="Unique Devices", value=unique_devices)
 with col3:
-    st.metric(label="Average Home activities duration", value="7.42 h")
+    st.metric(label="Average Home activities duration", value="11.42 h")
 with col4:
-    st.metric(label="Average Work activities duration", value="8.34 km")
+    st.metric(label="Average Work activities duration", value="8.34 h")
 
 df['actividad_cat'] = df['actividad'].apply(map_actividad)
 df.set_index('timestamp', inplace=True)
@@ -74,7 +74,7 @@ def load_html(filename):
             st.session_state.html_loaded = True
             return st.session_state.html_content
 
-html_content=load_html("../data/activities.html")
+html_content=load_html("data/activities.html")
 
 
 
