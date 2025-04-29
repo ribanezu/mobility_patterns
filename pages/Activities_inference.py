@@ -74,7 +74,7 @@ def load_html2(filename):
             st.session_state.html_loaded = True
             return st.session_state.html_content
 
-html_content=load_html2("data/activities.html")
+html_content2=load_html2("data/activities.html")
 
 
 
@@ -86,7 +86,7 @@ html_fix = """
   }, 200);
 </script>
 """
-html_inyectado = html_content + html_fix
+html_inyectado = html_content2 + html_fix
 
 components.html(html_inyectado, height=800, width=2000, scrolling=False)
 
