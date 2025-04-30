@@ -46,16 +46,16 @@ df_resampled = df.resample('10T').apply(lambda x: x['ID'].nunique())
 fig = animated_unique_ids_area(df_resampled)
 st.plotly_chart(fig, use_container_width=True)
 
-""" @st.cache_resource
-def load_html(filename):
-  if "html_loaded" not in st.session_state:
-    with st.spinner("Loading..."):
-        with open(filename, "r", encoding="utf-8") as f:
-            st.session_state.html_content = f.read()
-            st.session_state.html_loaded = True
-            return st.session_state.html_content
-
-html_content=load_html("data/waypoints.html") """
+#""" @st.cache_resource
+#def load_html(filename):
+#  if "html_loaded" not in st.session_state:
+#    with st.spinner("Loading..."):
+#        with open(filename, "r", encoding="utf-8") as f:
+#            st.session_state.html_content = f.read()
+#            st.session_state.html_loaded = True
+#            return st.session_state.html_content
+#
+#html_content=load_html("data/waypoints.html") """
 
 
 

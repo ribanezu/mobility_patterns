@@ -65,16 +65,16 @@ fig = animated_activities_area(df_resampled)
 st.plotly_chart(fig, use_container_width=True)
 
 
-""" @st.cache_resource
-def load_html2(filename):
-  if "html_loaded" not in st.session_state:
-    with st.spinner("Loading..."):
-        with open(filename, "r", encoding="utf-8") as f:
-            st.session_state.html_content = f.read()
-            st.session_state.html_loaded = True
-            return st.session_state.html_content
+#""" @st.cache_resource
+#def load_html2(filename):
+#  if "html_loaded" not in st.session_state:
+#    with st.spinner("Loading..."):
+#        with open(filename, "r", encoding="utf-8") as f:
+#            st.session_state.html_content = f.read()
+#            st.session_state.html_loaded = True
+#            return st.session_state.html_content
 
-html_content2=load_html2("data/activities.html") """
+#html_content2=load_html2("data/activities.html") """
 
 
 
