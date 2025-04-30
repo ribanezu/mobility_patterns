@@ -71,7 +71,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-@st.cache_resource
+""" @st.cache_resource
 def load_html3(filename):
   if "html_loaded" not in st.session_state:
     with st.spinner("Loading..."):
@@ -80,7 +80,7 @@ def load_html3(filename):
             st.session_state.html_loaded = True
             return st.session_state.html_content
 
-html_content3=load_html3("data/waypoints.html")
+html_content3=load_html3("data/waypoints.html") """
 
 
 
@@ -92,7 +92,15 @@ html_fix = """
   }, 200);
 </script>
 """
-html_inyectado = html_content3 + html_fix
+
+@st.cache_resource
+def load_html(filename):
+    with open(filename, "r", encoding="utf-8") as f:
+        return f.read()
+
+html_content = load_html("data/wayponts.html")
+
+html_inyectado = html_content + html_fix
 
 components.html(html_inyectado, height=800, width=2000, scrolling=False)
 
