@@ -98,7 +98,7 @@ def load_html(filename):
     with open(filename, "r", encoding="utf-8") as f:
         return f.read()
 
-html_content = load_html("data/wayponts.html")
+html_content = load_html("data/waypoints.html")
 
 html_inyectado = html_content + html_fix
 

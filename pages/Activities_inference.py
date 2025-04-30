@@ -95,7 +95,7 @@ def load_html(filename):
 html_content = load_html("data/activities.html")
 
 
-html_inyectado = html_content2 + html_fix
+html_inyectado = html_content + html_fix
 
 components.html(html_inyectado, height=800, width=2000, scrolling=False)
 
